@@ -1,26 +1,126 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* --- Light Mode Specific Variables --- */
+    --lightmode-background-rgb: 248 249 250;     /* #F8F9FA */
+    --lightmode-foreground-rgb: 33 37 41;       /* #212529 */
+
+    --lightmode-theme-red-rgb: 229 152 152;      /* #E59898 */
+    --lightmode-theme-red-hover-rgb: 240 180 180;/* #F0B4B4 */
+    --lightmode-theme-red-active-rgb: 200 120 120;/* #C87878 */
+
+    --lightmode-neutral-100-rgb: 248 249 250;    /* #F8F9FA */
+    --lightmode-neutral-200-rgb: 233 236 239;    /* #E9ECEF */
+    --lightmode-neutral-400-rgb: 173 181 189;    /* #ADB5BD */
+    --lightmode-neutral-700-rgb: 73 80 87;       /* #495057 */
+    --lightmode-neutral-900-rgb: 33 37 41;       /* #212529 */
+
+    --lightmode-glass-bg-rgb: 255 255 255;
+    --lightmode-glass-border-rgb: 255 255 255;
+    --lightmode-glass-bg-theme-tint-rgb: var(--lightmode-theme-red-rgb);
+    --lightmode-glass-border-theme-tint-rgb: var(--lightmode-theme-red-rgb);
+
+    /* --- Dark Mode Specific Variables --- */
+    --darkmode-background-rgb: 32 0 0;           /* #200000 */
+    --darkmode-foreground-rgb: 229 231 235;     /* #E5E7EB */
+
+    --darkmode-theme-red-rgb: 229 152 152;       /* #E59898 (Same as light, good contrast) */
+    --darkmode-theme-red-hover-rgb: 240 180 180; /* #F0B4B4 (Slightly brighter for dark) */
+    --darkmode-theme-red-active-rgb: 210 140 140;/* #D28C8C (Adjusted for dark) */
+
+    --darkmode-neutral-100-rgb: 55 65 81;        /* #374151 */
+    --darkmode-neutral-200-rgb: 75 85 99;        /* #4B5563 */
+    --darkmode-neutral-400-rgb: 107 114 128;     /* #6B7280 */
+    --darkmode-neutral-700-rgb: 156 163 175;     /* #9CA3AF */
+    --darkmode-neutral-900-rgb: 243 244 246;     /* #F3F4F6 */
+
+    --darkmode-glass-bg-rgb: 40 10 10; 
+    --darkmode-glass-border-rgb: var(--darkmode-theme-red-hover-rgb);
+    --darkmode-glass-bg-theme-tint-rgb: var(--darkmode-theme-red-rgb);
+    --darkmode-glass-border-theme-tint-rgb: var(--darkmode-theme-red-hover-rgb);
+
+    --background-rgb: var(--lightmode-background-rgb);
+    --foreground-rgb: var(--lightmode-foreground-rgb);
+
+    --theme-red-rgb: var(--lightmode-theme-red-rgb);
+    --theme-red-hover-rgb: var(--lightmode-theme-red-hover-rgb);
+    --theme-red-active-rgb: var(--lightmode-theme-red-active-rgb);
+
+    --neutral-100-rgb: var(--lightmode-neutral-100-rgb);
+    --neutral-200-rgb: var(--lightmode-neutral-200-rgb);
+    --neutral-400-rgb: var(--lightmode-neutral-400-rgb);
+    --neutral-700-rgb: var(--lightmode-neutral-700-rgb);
+    --neutral-900-rgb: var(--lightmode-neutral-900-rgb);
+
+    --glass-bg-rgb: var(--lightmode-glass-bg-rgb);
+    --glass-border-rgb: var(--lightmode-glass-border-rgb);
+    --glass-bg-theme-tint-rgb: var(--lightmode-glass-bg-theme-tint-rgb);
+    --glass-border-theme-tint-rgb: var(--lightmode-glass-border-theme-tint-rgb);
+  }
+
+  .dark {
+    --background-rgb: var(--darkmode-background-rgb);
+    --foreground-rgb: var(--darkmode-foreground-rgb);
+
+    --theme-red-rgb: var(--darkmode-theme-red-rgb);
+    --theme-red-hover-rgb: var(--darkmode-theme-red-hover-rgb);
+    --theme-red-active-rgb: var(--darkmode-theme-red-active-rgb);
+
+    --neutral-100-rgb: var(--darkmode-neutral-100-rgb);
+    --neutral-200-rgb: var(--darkmode-neutral-200-rgb);
+    --neutral-400-rgb: var(--darkmode-neutral-400-rgb);
+    --neutral-700-rgb: var(--darkmode-neutral-700-rgb);
+    --neutral-900-rgb: var(--darkmode-neutral-900-rgb);
+
+    --glass-bg-rgb: var(--darkmode-glass-bg-rgb);
+    --glass-border-rgb: var(--darkmode-glass-border-rgb);
+    --glass-bg-theme-tint-rgb: var(--darkmode-glass-bg-theme-tint-rgb);
+    --glass-border-theme-tint-rgb: var(--darkmode-glass-border-theme-tint-rgb);
   }
 }
 
+@theme inline {
+  colors: {
+    background: rgb(var(--background-rgb) / <alpha-value>),
+    foreground: rgb(var(--foreground-rgb) / <alpha-value>),
+    themeRed: {
+      DEFAULT: rgb(var(--theme-red-rgb) / <alpha-value>),
+      hover: rgb(var(--theme-red-hover-rgb) / <alpha-value>),
+      active: rgb(var(--theme-red-active-rgb) / <alpha-value>),
+    },
+    neutral: {
+      100: rgb(var(--neutral-100-rgb) / <alpha-value>),
+      200: rgb(var(--neutral-200-rgb) / <alpha-value>),
+      400: rgb(var(--neutral-400-rgb) / <alpha-value>),
+      700: rgb(var(--neutral-700-rgb) / <alpha-value>),
+      900: rgb(var(--neutral-900-rgb) / <alpha-value>),
+    },
+    glass: {
+      bg: rgb(var(--glass-bg-rgb) / <alpha-value>),
+      border: rgb(var(--glass-border-rgb) / <alpha-value>),
+      bgThemeTint: rgb(var(--glass-bg-theme-tint-rgb) / <alpha-value>),
+      borderThemeTint: rgb(var(--glass-border-theme-tint-rgb) / <alpha-value>),
+    }
+    
+  },
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(var(--background-rgb));
+  color: rgb(var(--foreground-rgb));
+  font-family: theme(fontFamily.sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Add any other global body styles, like min-height for sticky footer, etc. */
+  min-height: 100vh;
+  /* Consider adding a transition for color changes for a smoother dark mode switch */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth transitions for elements that change color on theme switch */
+*, ::before, ::after {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms; /* Or your preferred duration */
+}
 }
