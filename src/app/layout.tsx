@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ScrollToTop from "./rootcomponents/ScrollToTop";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -21,9 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} antialiased bg-background`}
+        className={`${inter.variable} antialiased bg-background min-h-[100vh] flex flex-col`}
       >
+        <ThemeProvider attribute="class" enableSystem defaultTheme="system">
         {children}
+        </ThemeProvider>
+        <ScrollToTop />
       </body>
     </html>
   );
