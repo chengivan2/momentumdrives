@@ -103,6 +103,7 @@
       borderThemeTint: rgb(var(--glass-border-theme-tint-rgb) / <alpha-value>),
     }
     
+    --font-sans: var(--font-geist-sans);
   },
 
 body {
