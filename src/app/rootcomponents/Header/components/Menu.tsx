@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Menu() {
   return (
-    <div className="text-[0.85rem] lg:flex space-y-3 lg:space-y-0 lg:space-x-8">
+    <div className="text-[0.85rem] lg:flex space-y-3 lg:space-y-0 lg:space-x-8 flex-col lg:flex-row">
       <Link
         href="/"
       >
