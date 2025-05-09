@@ -50,8 +50,9 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: hsl(210, 17%, 98%);
   --foreground: oklch(0.145 0 0);
+  --header-bg-color: hsl(210, 17%, 88%);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -84,8 +85,9 @@
 }
 
 .dark {
-  --background: #200000;
+  --background: hsl(0, 100%, 6%);
   --foreground: oklch(0.985 0 0);
+  --header-bg-color: hsl(0, 100%, 16%);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);

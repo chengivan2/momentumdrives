@@ -44,7 +44,7 @@ export default function Header() {
       className={`
       fixed top-0 left-0 right-0 z-50 
       py-3 px-[1.5rem] 
-      bg-lightmode-header-bg-color dark:bg-darkmode-header-bg-color 
+      bg-header-bg-color 
       shadow-lg
       transition-transform duration-500 h-20
       ${isVisible ? "translate-y-0" : "-translate-y-full"}
