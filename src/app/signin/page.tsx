@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import Header from "../rootcomponents/header/Header";
+import Header from "@/app/rootcomponents/header/Header";
 import SignInMain from "./components/SignInMain";
-import Footer from "../rootcomponents/footer/Footer";
+import Footer from "@/app/rootcomponents/footer/Footer";
 
 export const metadata: Metadata = {
   title: "Sign In - Momentum Drives",
