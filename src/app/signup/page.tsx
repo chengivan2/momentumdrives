@@ -1,4 +1,3 @@
-
 import { Metadata } from "next";
 import SignUpMain from "./components/SignUpMain";
 import Footer from "../rootcomponents/footer/Footer";
