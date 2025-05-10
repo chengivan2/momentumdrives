@@ -10,7 +10,7 @@ export default function HeaderThemeToggler() {
   return (
     <Button
       size="icon"
-      className="flex justify-center items-center duration-200 border-none bg-transparent hover:bg-transparent outline-0 rounded-full hover:cursor-pointer active:outline-0"
+      className="flex justify-center items-center duration-200 border-none bg-transparent hover:bg-transparent outline-0 rounded-full hover:cursor-pointer active:outline-0 *:text-foreground"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
       <FaMoon className="absolute h-12 w-12 -rotate-21 duration-300 scale-100 dark:-rotate-0 dark:scale-0" />
