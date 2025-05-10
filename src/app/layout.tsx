@@ -5,9 +5,9 @@ import ScrollToTop from "./rootcomponents/ScrollToTop";
 import { ThemeProvider } from "next-themes";
 
 const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -21,12 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} antialiased bg-background min-h-[100vh] flex flex-col`}
-      >
+    <html className={`${inter.variable} antialiased`} lang="en" suppressHydrationWarning>
+      <body className="bg-background min-h-[100vh] flex flex-col">
         <ThemeProvider attribute="class" enableSystem defaultTheme="system">
-        {children}
+          {children}
         </ThemeProvider>
         <ScrollToTop />
       </body>
