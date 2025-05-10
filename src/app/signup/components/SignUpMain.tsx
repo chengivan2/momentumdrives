@@ -62,9 +62,7 @@ export default function SignUpMain() {
           >
             <div className="p-8 pb-6">
               <div>
-                <Link href="/" aria-label="go home">
-                  <HeaderLogo />
-                </Link>
+                <HeaderLogo />
                 <h1 className="text-title mb-1 mt-4 text-xl font-semibold">
                   Create a Momentum Drives Account
                 </h1>
@@ -104,21 +102,19 @@ export default function SignUpMain() {
               </div>
 
               <div className="space-y-5">
-                
-                  <div className="space-y-2">
-                    <Label htmlFor="fullname" className="block text-sm">
-                      Full name
-                    </Label>
-                    <Input
-                      type="text"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      required
-                      id="fullname"
-                      className="border border-green-300 dark:border-green-700 rounded-md p-2"
-                    />
-                  </div>
-                  
+                <div className="space-y-2">
+                  <Label htmlFor="fullname" className="block text-sm">
+                    Full name
+                  </Label>
+                  <Input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    id="fullname"
+                    className="border border-green-300 dark:border-green-700 rounded-md p-2"
+                  />
+                </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="email" className="block text-sm">
