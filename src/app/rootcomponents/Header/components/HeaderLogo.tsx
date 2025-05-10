@@ -8,7 +8,7 @@ export default function HeaderLogo() {
         <Image
           width={100}
           height={50}
-          alt="OnPoint header logo"
+          alt="Momentum Drives header logo"
           src="/logos/mdrives-lm-logo.png"
           className="flex duration-300 dark:hidden"
         />
@@ -16,7 +16,7 @@ export default function HeaderLogo() {
         <Image
           width={100}
           height={50}
-          alt="OnPoint header logo"
+          alt="Momentum Drives header logo"
           src="/logos/mdrives-dm-logo.png"
           className="hidden duration-300 dark:flex"
         />
