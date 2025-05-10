@@ -8,7 +8,7 @@ import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { FaGoogle, FaXTwitter } from "react-icons/fa6";
-import HeaderLogo from "@/app/rootcomponents/heade/components/HeaderLogo";
+import HeaderLogo from "@/app/rootcomponents/header/components/HeaderLogo";
 
 export default function SignUpMain() {
   const supabase = createClient();

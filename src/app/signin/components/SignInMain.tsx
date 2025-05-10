@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa6";
-import HeaderLogo from "@/app/rootcomponents/heade/components/HeaderLogo";
+import HeaderLogo from "@/app/rootcomponents/header/components/HeaderLogo";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 
