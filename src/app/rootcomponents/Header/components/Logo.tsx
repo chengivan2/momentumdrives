@@ -9,8 +9,16 @@ export default function HeaderLogo() {
           width={100}
           height={50}
           alt="OnPoint header logo"
-          src="/logo/momentumlogo.png"
-          className="flex"
+          src="/logos/mdrives-lm-logo.png"
+          className="flex duration-300 dark:hidden"
+        />
+
+        <Image
+          width={100}
+          height={50}
+          alt="OnPoint header logo"
+          src="/logos/mdrives-dm-logo.png"
+          className="hidden duration-300 dark:flex"
         />
       </div>
     </Link>
