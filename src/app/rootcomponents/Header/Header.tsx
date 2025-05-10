@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import HeaderLogo from "./components/Logo";
+import HeaderLogo from "./components/HeaderLogo";
 import Menu from "./components/Menu";
 import HeaderThemeToggler from "./components/ThemeToggler";
 import HeaderButtons from "./components/HeaderButtons";
