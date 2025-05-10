@@ -83,7 +83,7 @@
 }
 
 .dark {
-  --background: hsl(0, 100%, 6%);
+  --background: hsl(0, 100%, 4%);
   --foreground: oklch(0.985 0 0);
   --header-bg-color: hsl(0, 100%, 16%);
   --card: oklch(0.205 0 0);
