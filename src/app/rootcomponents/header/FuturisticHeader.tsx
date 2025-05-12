@@ -1,217 +1,135 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Menu, X, Sun, Moon } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import HeaderThemeToggler from "@/app/rootcomponents/header/components/ThemeToggler"
+import { 
+  Menu as MenuIcon, 
+  X, 
+  ChevronRight, 
+  Car, 
+  Building2, 
+  FileText, 
+  User, 
+  LogIn
+} from "lucide-react"
 
 export default function FuturisticHeader() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { theme, setTheme } = useTheme();
-
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
-
+      setIsScrolled(window.scrollY > 10)
+    }
+    
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+  
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/10 dark:bg-black/10 backdrop-blur-lg shadow-lg"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between py-4">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? "py-2 bg-white/80 dark:bg-black/80 backdrop-blur-lg shadow-md" 
+        : "py-4 bg-transparent"
+    }`}>
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center"
-            >
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-600 bg-clip-text text-transparent">
-                Momentum Drives
-              </span>
-            </motion.div>
+            <div className="relative h-10 w-10 mr-2">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 rounded-full opacity-80" />
+              <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl">M</div>
+            </div>
+            <span className={`font-bold text-xl ${isScrolled ? "text-gray-900 dark:text-white" : "text-white"}`}>
+              Momentum<span className="text-red-600">Drives</span>
+            </span>
           </Link>
-
+          
           {/* Desktop Navigation */}
-          <motion.nav
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="hidden md:flex items-center space-x-8"
-          >
-            <Link
-              href="/"
-              className="text-foreground hover:text-purple-500 transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/vehicles"
-              className="text-foreground hover:text-purple-500 transition-colors"
-            >
-              Vehicles
-            </Link>
-            <Link
-              href="/stations"
-              className="text-foreground hover:text-purple-500 transition-colors"
-            >
-              Stations
-            </Link>
-            <Link
-              href="/about"
-              className="text-foreground hover:text-purple-500 transition-colors"
-            >
-              About
-            </Link>
-            <Link
-              href="/contact"
-              className="text-foreground hover:text-purple-500 transition-colors"
-            >
-              Contact
-            </Link>
-          </motion.nav>
-
-          {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
-            {/* Theme Toggle */}
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5"
-            >
-              {theme === "dark" ? (
-                <Sun size={18} className="text-yellow-400" />
-              ) : (
-                <Moon size={18} className="text-purple-600" />
-              )}
-            </motion.button>
-
-            {/* Auth Buttons */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="hidden md:flex items-center space-x-3"
-            >
-              <Link href="/signin">
-                <Button
-                  variant="outline"
-                  className="rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 hover:bg-white/20 dark:hover:bg-black/30"
-                >
-                  Sign In
-                </Button>
-              </Link>
-              <Link href="/signup">
-                <Button className="rounded-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white">
-                  Sign Up
-                </Button>
-              </Link>
-            </motion.div>
-
-            {/* Mobile Menu Button */}
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              onClick={toggleMenu}
-              className="md:hidden p-2 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5"
-            >
-              {isOpen ? (
-                <X size={20} className="text-foreground" />
-              ) : (
-                <Menu size={20} className="text-foreground" />
-              )}
-            </motion.button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <motion.div
-        initial={{ height: 0, opacity: 0 }}
-        animate={{
-          height: isOpen ? "auto" : 0,
-          opacity: isOpen ? 1 : 0,
-        }}
-        transition={{ duration: 0.3 }}
-        className="md:hidden overflow-hidden bg-white/10 dark:bg-black/10 backdrop-blur-lg"
-      >
-        <div className="container mx-auto px-6 py-4 space-y-4">
-          <Link
-            href="/"
-            className="block text-foreground hover:text-purple-500 transition-colors py-2"
-            onClick={() => setIsOpen(false)}
-          >
-            Home
-          </Link>
-          <Link
-            href="/vehicles"
-            className="block text-foreground hover:text-purple-500 transition-colors py-2"
-            onClick={() => setIsOpen(false)}
-          >
-            Vehicles
-          </Link>
-          <Link
-            href="/stations"
-            className="block text-foreground hover:text-purple-500 transition-colors py-2"
-            onClick={() => setIsOpen(false)}
-          >
-            Stations
-          </Link>
-          <Link
-            href="/about"
-            className="block text-foreground hover:text-purple-500 transition-colors py-2"
-            onClick={() => setIsOpen(false)}
-          >
-            About
-          </Link>
-          <Link
-            href="/contact"
-            className="block text-foreground hover:text-purple-500 transition-colors py-2"
-            onClick={() => setIsOpen(false)}
-          >
-            Contact
-          </Link>
-          <div className="flex flex-col space-y-3 pt-4 border-t border-white/10 dark:border-white/5">
-            <Link href="/signin" onClick={() => setIsOpen(false)}>
-              <Button
-                variant="outline"
-                className="w-full rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 hover:bg-white/20 dark:hover:bg-black/30"
+          <nav className="hidden md:flex items-center space-x-1">
+            <NavLink href="/vehicles" label="Vehicles" icon={<Car size={16} />} isScrolled={isScrolled} />
+            <NavLink href="/stations" label="Stations" icon={<Building2 size={16} />} isScrolled={isScrolled} />
+            <NavLink href="/dashboard" label="Dashboard" icon={<FileText size={16} />} isScrolled={isScrolled} />
+          </nav>
+          
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center space-x-2">
+            <HeaderThemeToggler />
+            <Link href="/signin">
+              <Button 
+                variant="outline" 
+                size="sm"
+                className={`rounded-full ${
+                  isScrolled 
+                    ? "bg-white/20 dark:bg-black/20 border-gray-300 dark:border-gray-700" 
+                    : "bg-white/10 border-white/20 text-white hover:bg-white/20"
+                }`}
               >
+                <LogIn className="mr-2 h-4 w-4" />
                 Sign In
               </Button>
             </Link>
-            <Link href="/signup" onClick={() => setIsOpen(false)}>
-              <Button className="w-full rounded-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white">
+            <Link href="/signup">
+              <Button 
+                size="sm"
+                className="bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-white rounded-full"
+              >
+                <User className="mr-2 h-4 w-4" />
+                Sign Up
+              </Button>
+            </Link>
+          </div>
+          
+          {/* Mobile Menu Button */}
+          <div className="flex items-center md:hidden">
+            <HeaderThemeToggler />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={isScrolled ? "text-gray-900 dark:text-white" : "text-white"}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <MenuIcon size={24} />}
+            </Button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Mobile Menu */}
+      <motion.div 
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ 
+          opacity: isMobileMenuOpen ? 1 : 0,
+          height: isMobileMenuOpen ? "auto" : 0
+        }}
+        transition={{ duration: 0.3 }}
+        className="md:hidden overflow-hidden bg-white/90 dark:bg-black/90 backdrop-blur-lg"
+      >
+        <div className="container mx-auto px-4 py-4 space-y-4">
+          <div className="flex flex-col space-y-2">
+            <MobileNavLink href="/vehicles" label="Vehicles" icon={<Car size={18} />} />
+            <MobileNavLink href="/stations" label="Stations" icon={<Building2 size={18} />} />
+            <MobileNavLink href="/dashboard" label="Dashboard" icon={<FileText size={18} />} />
+          </div>
+          
+          <div className="pt-4 border-t border-gray-200 dark:border-gray-800 flex flex-col space-y-2">
+            <Link href="/signin" className="w-full">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start rounded-xl"
+              >
+                <LogIn className="mr-2 h-5 w-5" />
+                Sign In
+              </Button>
+            </Link>
+            <Link href="/signup" className="w-full">
+              <Button 
+                className="w-full justify-start bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-white rounded-xl"
+              >
+                <User className="mr-2 h-5 w-5" />
                 Sign Up
               </Button>
             </Link>
@@ -219,5 +137,37 @@ export default function FuturisticHeader() {
         </div>
       </motion.div>
     </header>
-  );
+  )
+}
+
+// Desktop Navigation Link
+function NavLink({ href, label, icon, isScrolled }: { href: string; label: string; icon: React.ReactNode; isScrolled: boolean }) {
+  return (
+    <Link href={href}>
+      <Button 
+        variant="ghost" 
+        size="sm"
+        className={`rounded-full ${isScrolled ? "text-gray-900 dark:text-white" : "text-white"}`}
+      >
+        {icon}
+        <span className="ml-1">{label}</span>
+      </Button>
+    </Link>
+  )
+}
+
+// Mobile Navigation Link
+function MobileNavLink({ href, label, icon }: { href: string; label: string; icon: React.ReactNode }) {
+  return (
+    <Link href={href} className="w-full">
+      <Button 
+        variant="ghost" 
+        className="w-full justify-start rounded-xl"
+      >
+        {icon}
+        <span className="ml-2">{label}</span>
+        <ChevronRight className="ml-auto h-5 w-5 opacity-50" />
+      </Button>
+    </Link>
+  )
 }

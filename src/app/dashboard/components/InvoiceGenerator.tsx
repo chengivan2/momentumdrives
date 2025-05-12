@@ -1,331 +1,252 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Checkbox } from "@/components/ui/checkbox";
-import { FileText, Plus, Printer, Download, Mail } from "lucide-react";
-import { useTheme } from "next-themes";
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogFooter, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from "@/components/ui/dialog"
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select"
+import { FileText, Plus, Download, Send } from "lucide-react"
 
 export function InvoiceGenerator() {
-  const { theme } = useTheme();
-  const [invoiceData, setInvoiceData] = useState({
-    customer: "",
-    vehicle: "",
-    amount: "",
-    date: new Date().toISOString().split("T")[0],
-    paymentMethod: "cash",
-    includeVAT: true,
-    includeDelivery: false,
-    notes: "",
-  });
-
-  const [previewReady, setPreviewReady] = useState(false);
-
-  const handleChange = (field: string, value: string | boolean) => {
-    setInvoiceData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  const generateInvoice = () => {
-    // In a real app, this would generate the invoice
-    setPreviewReady(true);
-  };
-
+  const [isOpen, setIsOpen] = useState(false)
+  const [step, setStep] = useState(1)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [isGenerated, setIsGenerated] = useState(false)
+  
+  const handleGenerate = () => {
+    setIsGenerating(true)
+    // Simulate invoice generation
+    setTimeout(() => {
+      setIsGenerating(false)
+      setIsGenerated(true)
+    }, 1500)
+  }
+  
+  const resetForm = () => {
+    setStep(1)
+    setIsGenerated(false)
+  }
+  
+  const closeDialog = () => {
+    setIsOpen(false)
+    setTimeout(resetForm, 300)
+  }
+  
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button className="bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
           <Plus size={18} className="mr-2" />
           Generate Invoice
         </Button>
-      </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-md md:max-w-lg overflow-y-auto bg-white/80 dark:bg-black/80 backdrop-blur-xl border-white/20 dark:border-white/10 rounded-l-xl">
-        <SheetHeader className="mb-6">
-          <SheetTitle className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-600 bg-clip-text text-transparent">
-            Generate Invoice
-          </SheetTitle>
-          <SheetDescription>
-            Create a new invoice for a vehicle purchase.
-          </SheetDescription>
-        </SheetHeader>
-
-        <div className="space-y-6">
-          {!previewReady ? (
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="customer">Customer Name</Label>
-                  <Input
-                    id="customer"
-                    placeholder="Enter customer name"
-                    value={invoiceData.customer}
-                    onChange={(e) => handleChange("customer", e.target.value)}
-                    className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="vehicle">Vehicle</Label>
-                  <Select
-                    value={invoiceData.vehicle}
-                    onValueChange={(value) => handleChange("vehicle", value)}
-                  >
-                    <SelectTrigger className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl">
-                      <SelectValue placeholder="Select vehicle" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white/90 dark:bg-black/90 backdrop-blur-xl border-white/20 dark:border-white/10 rounded-xl">
-                      <SelectItem value="toyota-corolla">Toyota Corolla</SelectItem>
-                      <SelectItem value="bmw-x5">BMW X5</SelectItem>
-                      <SelectItem value="honda-civic">Honda Civic</SelectItem>
-                      <SelectItem value="range-rover">Range Rover Sport</SelectItem>
-                      <SelectItem value="mercedes-benz">Mercedes-Benz C-Class</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="amount">Amount (KES)</Label>
-                  <Input
-                    id="amount"
-                    placeholder="Enter amount"
-                    value={invoiceData.amount}
-                    onChange={(e) => handleChange("amount", e.target.value)}
-                    className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="date">Date</Label>
-                  <Input
-                    id="date"
-                    type="date"
-                    value={invoiceData.date}
-                    onChange={(e) => handleChange("date", e.target.value)}
-                    className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="paymentMethod">Payment Method</Label>
-                <Select
-                  value={invoiceData.paymentMethod}
-                  onValueChange={(value) => handleChange("paymentMethod", value)}
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[600px] bg-white/80 dark:bg-black/80 backdrop-blur-xl border-white/20 dark:border-white/10 rounded-xl">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-red-800 to-red-600 bg-clip-text text-transparent">
+            {step === 1 && "Create New Invoice"}
+            {step === 2 && "Invoice Details"}
+            {step === 3 && (isGenerated ? "Invoice Generated" : "Generating Invoice...")}
+          </DialogTitle>
+          <DialogDescription>
+            {step === 1 && "Select a customer and vehicle to create an invoice."}
+            {step === 2 && "Add payment details and additional information."}
+            {step === 3 && (isGenerated 
+              ? "Your invoice has been generated successfully." 
+              : "Please wait while we generate your invoice..."
+            )}
+          </DialogDescription>
+        </DialogHeader>
+        
+        {step === 1 && (
+          <div className="grid grid-cols-1 gap-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="customer">Customer</Label>
+              <Select>
+                <SelectTrigger id="customer" className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl">
+                  <SelectValue placeholder="Select customer" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/90 dark:bg-black/90 backdrop-blur-xl border-white/20 dark:border-white/10 rounded-xl">
+                  <SelectItem value="john-doe">John Doe</SelectItem>
+                  <SelectItem value="jane-smith">Jane Smith</SelectItem>
+                  <SelectItem value="james-brown">James Brown</SelectItem>
+                  <SelectItem value="sarah-johnson">Sarah Johnson</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="vehicle">Vehicle</Label>
+              <Select>
+                <SelectTrigger id="vehicle" className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl">
+                  <SelectValue placeholder="Select vehicle" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/90 dark:bg-black/90 backdrop-blur-xl border-white/20 dark:border-white/10 rounded-xl">
+                  <SelectItem value="toyota-corolla">Toyota Corolla (2020)</SelectItem>
+                  <SelectItem value="bmw-x5">BMW X5 (2019)</SelectItem>
+                  <SelectItem value="honda-civic">Honda Civic (2021)</SelectItem>
+                  <SelectItem value="range-rover">Range Rover Sport (2018)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="station">Station</Label>
+              <Select>
+                <SelectTrigger id="station" className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl">
+                  <SelectValue placeholder="Select station" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/90 dark:bg-black/90 backdrop-blur-xl border-white/20 dark:border-white/10 rounded-xl">
+                  <SelectItem value="main">Momentum Drives Main</SelectItem>
+                  <SelectItem value="westlands">Momentum Drives Westlands</SelectItem>
+                  <SelectItem value="mombasa">Momentum Drives Mombasa</SelectItem>
+                  <SelectItem value="kisumu">Momentum Drives Kisumu</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        )}
+        
+        {step === 2 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="amount">Amount (KES)</Label>
+              <Input 
+                id="amount" 
+                placeholder="e.g. 2,500,000" 
+                className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl" 
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="payment-method">Payment Method</Label>
+              <Select>
+                <SelectTrigger id="payment-method" className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl">
+                  <SelectValue placeholder="Select payment method" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/90 dark:bg-black/90 backdrop-blur-xl border-white/20 dark:border-white/10 rounded-xl">
+                  <SelectItem value="cash">Cash</SelectItem>
+                  <SelectItem value="bank-transfer">Bank Transfer</SelectItem>
+                  <SelectItem value="mpesa">M-Pesa</SelectItem>
+                  <SelectItem value="card">Credit/Debit Card</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="notes">Additional Notes</Label>
+              <Input 
+                id="notes" 
+                placeholder="Any additional information" 
+                className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl" 
+              />
+            </div>
+            
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="theme">Invoice Theme</Label>
+              <div className="flex gap-2">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="flex-1 bg-white text-black border border-gray-200 hover:bg-gray-100 rounded-xl"
                 >
-                  <SelectTrigger className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl">
-                    <SelectValue placeholder="Select payment method" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white/90 dark:bg-black/90 backdrop-blur-xl border-white/20 dark:border-white/10 rounded-xl">
-                    <SelectItem value="cash">Cash</SelectItem>
-                    <SelectItem value="bank-transfer">Bank Transfer</SelectItem>
-                    <SelectItem value="credit-card">Credit Card</SelectItem>
-                    <SelectItem value="mpesa">M-Pesa</SelectItem>
-                    <SelectItem value="financing">Financing</SelectItem>
-                  </SelectContent>
-                </Select>
+                  Light
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="flex-1 bg-gray-900 text-white border border-gray-700 hover:bg-gray-800 rounded-xl"
+                >
+                  Dark
+                </Button>
               </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="includeVAT"
-                    checked={invoiceData.includeVAT}
-                    onCheckedChange={(checked) =>
-                      handleChange("includeVAT", checked as boolean)
-                    }
-                  />
-                  <Label htmlFor="includeVAT">Include VAT (16%)</Label>
+            </div>
+          </div>
+        )}
+        
+        {step === 3 && (
+          <div className="py-4">
+            {isGenerating ? (
+              <div className="flex flex-col items-center justify-center py-8">
+                <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p className="text-muted-foreground">Generating your invoice...</p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-4">
+                <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
+                  <FileText className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="includeDelivery"
-                    checked={invoiceData.includeDelivery}
-                    onCheckedChange={(checked) =>
-                      handleChange("includeDelivery", checked as boolean)
-                    }
-                  />
-                  <Label htmlFor="includeDelivery">Include Delivery Fee</Label>
+                <h3 className="text-xl font-bold mb-2">Invoice MD-INV-003</h3>
+                <p className="text-muted-foreground mb-6 text-center">
+                  Your invoice has been generated successfully and is ready to be downloaded or sent.
+                </p>
+                <div className="flex gap-4 w-full max-w-sm">
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Download
+                  </Button>
+                  <Button 
+                    className="flex-1 bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-white rounded-xl"
+                  >
+                    <Send className="mr-2 h-4 w-4" />
+                    Send
+                  </Button>
                 </div>
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="notes">Additional Notes</Label>
-                <textarea
-                  id="notes"
-                  placeholder="Enter any additional notes"
-                  value={invoiceData.notes}
-                  onChange={(e) => handleChange("notes", e.target.value)}
-                  className="w-full min-h-[100px] p-3 bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl resize-none"
-                />
-              </div>
-
-              <Button
-                onClick={generateInvoice}
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <FileText size={18} className="mr-2" />
+            )}
+          </div>
+        )}
+        
+        <DialogFooter>
+          {step === 1 && (
+            <>
+              <Button variant="outline" onClick={closeDialog} className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl">
+                Cancel
+              </Button>
+              <Button onClick={() => setStep(2)} className="bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-white rounded-xl">
+                Next
+              </Button>
+            </>
+          )}
+          
+          {step === 2 && (
+            <>
+              <Button variant="outline" onClick={() => setStep(1)} className="bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-xl">
+                Back
+              </Button>
+              <Button onClick={() => {
+                setStep(3);
+                handleGenerate();
+              }} className="bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-white rounded-xl">
                 Generate Invoice
               </Button>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {/* Invoice Preview */}
-              <Card className={`p-6 ${theme === 'dark' ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-lg border border-white/20 dark:border-white/10 rounded-xl shadow-lg`}>
-                <div className="flex justify-between items-start mb-6">
-                  <div>
-                    <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-600 bg-clip-text text-transparent">
-                      Momentum Drives
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Mombasa Road, Exit 7, Nairobi, Kenya
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <h4 className="text-xl font-bold">INVOICE</h4>
-                    <p className="text-sm text-muted-foreground">
-                      #MD-INV-{Math.floor(Math.random() * 1000).toString().padStart(3, '0')}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Date: {invoiceData.date}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="border-t border-b border-white/10 dark:border-white/5 py-4 mb-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <h5 className="text-sm font-medium text-muted-foreground mb-1">
-                        Bill To:
-                      </h5>
-                      <p className="font-medium">{invoiceData.customer}</p>
-                    </div>
-                    <div>
-                      <h5 className="text-sm font-medium text-muted-foreground mb-1">
-                        Payment Method:
-                      </h5>
-                      <p className="font-medium capitalize">
-                        {invoiceData.paymentMethod.replace("-", " ")}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-white/10 dark:border-white/5">
-                        <th className="text-left py-2">Description</th>
-                        <th className="text-right py-2">Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="border-b border-white/10 dark:border-white/5">
-                        <td className="py-3">
-                          {invoiceData.vehicle.replace("-", " ").replace(/\b\w/g, (l) => l.toUpperCase())}
-                        </td>
-                        <td className="text-right py-3">
-                          KES {Number(invoiceData.amount).toLocaleString()}
-                        </td>
-                      </tr>
-                      {invoiceData.includeVAT && (
-                        <tr className="border-b border-white/10 dark:border-white/5">
-                          <td className="py-3">VAT (16%)</td>
-                          <td className="text-right py-3">
-                            KES {(Number(invoiceData.amount) * 0.16).toLocaleString()}
-                          </td>
-                        </tr>
-                      )}
-                      {invoiceData.includeDelivery && (
-                        <tr className="border-b border-white/10 dark:border-white/5">
-                          <td className="py-3">Delivery Fee</td>
-                          <td className="text-right py-3">KES 15,000</td>
-                        </tr>
-                      )}
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td className="py-3 font-bold">Total</td>
-                        <td className="text-right py-3 font-bold">
-                          KES{" "}
-                          {(
-                            Number(invoiceData.amount) +
-                            (invoiceData.includeVAT
-                              ? Number(invoiceData.amount) * 0.16
-                              : 0) +
-                            (invoiceData.includeDelivery ? 15000 : 0)
-                          ).toLocaleString()}
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-
-                {invoiceData.notes && (
-                  <div className="mb-6">
-                    <h5 className="text-sm font-medium text-muted-foreground mb-1">
-                      Notes:
-                    </h5>
-                    <p className="text-sm">{invoiceData.notes}</p>
-                  </div>
-                )}
-
-                <div className="text-center text-sm text-muted-foreground">
-                  <p>Thank you for your business!</p>
-                  <p>For any inquiries, please contact us at info@momentumdrives.com</p>
-                </div>
-              </Card>
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  variant="outline"
-                  className="flex-1 rounded-xl bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/10 dark:border-white/5"
-                  onClick={() => setPreviewReady(false)}
-                >
-                  Edit Invoice
-                </Button>
-                <Button
-                  className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <Printer size={18} className="mr-2" />
-                  Print
-                </Button>
-                <Button
-                  className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <Download size={18} className="mr-2" />
-                  Download
-                </Button>
-                <Button
-                  className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <Mail size={18} className="mr-2" />
-                  Email
-                </Button>
-              </div>
-            </div>
+            </>
           )}
-        </div>
-      </SheetContent>
-    </Sheet>
-  );
+          
+          {step === 3 && isGenerated && (
+            <Button onClick={closeDialog} className="bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-white rounded-xl">
+              Done
+            </Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
 }
