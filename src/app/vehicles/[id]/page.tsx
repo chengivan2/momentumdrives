@@ -48,7 +48,7 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
       const { data: vehicleData, error } = await supabase
         .from("vehicles")
         .select("*")
-        .eq("id", params.id)
+        .eq("id", (await params).id)
         .single()
 
       if (error) {
@@ -75,7 +75,7 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
         .from("vehicles")
         .select("*")
         .or(`make.eq.${vehicleData.make},model.eq.${vehicleData.model}`)
-        .neq("id", params.id)
+        .neq("id", (await params).id)
         .limit(4)
 
       setSimilarVehicles(similarData || [])
@@ -103,7 +103,7 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
 
     fetchVehicle()
     fetchUserProfile()
-  }, [params.id, router])
+  }, [params, router])
 
   const toggleFavorite = async () => {
     if (!user || !vehicle) {
