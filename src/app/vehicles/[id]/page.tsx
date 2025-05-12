@@ -29,7 +29,7 @@ type Vehicle = Database["public"]["Tables"]["vehicles"]["Row"]
 type Station = Database["public"]["Tables"]["stations"]["Row"]
 type UserProfile = Database["public"]["Tables"]["user_profiles"]["Row"]
 
-export default function VehicleDetailPage({ params }: { params: { id: string } }) {
+export default function VehicleDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const supabase = createClient()
   const [vehicle, setVehicle] = useState<Vehicle | null>(null)

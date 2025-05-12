@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import Header from "@/app/rootcomponents/header/Header";
+import FuturisticHeader from "@/app/rootcomponents/header/FuturisticHeader";
 import SignInMain from "./components/SignInMain";
 import Footer from "@/app/rootcomponents/footer/Footer";
 
@@ -23,7 +23,7 @@ export default async function SignInPage() {
 
   return (
     <>
-      <Header />
+      <FuturisticHeader />
       <SignInMain />
       <Footer />
     </>
